@@ -8,7 +8,7 @@ from sk_spin_glass import SKSpinGlass
 from two_d_spin_glass import TwoDSpinGlass
 
 class GurobiSpinGlassSolver(SpinGlassSolver):
-    def __init__(self, time_limit: int = 30, mip_gap: float = 0.01):
+    def __init__(self, time_limit: int = 180, mip_gap: float = 0.01):
         self.time_limit = time_limit
         self.mip_gap = mip_gap
         
@@ -20,9 +20,16 @@ class GurobiSpinGlassSolver(SpinGlassSolver):
 
         # Create a new model
         model = Model("SpinGlass")
-        # model.setParam('OutputFlag', 0)  # Suppress Gurobi output
+        model.setParam('OutputFlag', 0)  # Suppress Gurobi output
         model.setParam('TimeLimit', self.time_limit)
         model.setParam('MIPGap', self.mip_gap)
+       
+        # model.setParam('PreQLinearize', 0)
+        # model.setParam('MIQCPMethod', 1)
+        # model.setParam('MIPFocus', 1)
+        # model.setParam('Heuristics', 0.5)
+        # model.setParam('Cuts', 2)
+        # model.setParam('NodeMethod', 2)
 
         # Create variables
         if isinstance(instance, SKSpinGlass):
